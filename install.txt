@@ -5,6 +5,7 @@ sudo python3.8 -m pip install ansible
 sudo apt -y install mariadb-server libmysqlclient-dev
 
 # delete my.cnf : rm /etc/mysql/my.cnf
+# nano /etc/mysql/my.cnf
 # copy https://github.com/mymi14s/frappe_random/blob/master/my.cnf replace /etc/mysql/my.cnf
 
 sudo systemctl restart mariadb
