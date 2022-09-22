@@ -1,5 +1,14 @@
+#reset root passwd
+sudo -i passwd
+#login as root 
+su - (with new passwd)
+
 sudo apt update
 sudo apt -y upgrade
+
+#reboot system , sudo reboot
+
+#begin install
 sudo apt -y install git build-essential python3.8 python3.8-dev python3.8-venv python3-pip libffi-dev libssl-dev
 sudo python3.8 -m pip install ansible
 sudo apt -y install mariadb-server libmysqlclient-dev
@@ -13,6 +22,9 @@ sudo systemctl enable mariadb
 
 # Reset mysql password
 sudo mysql_secure_installation
+
+#After setting up the sql paswd
+sudo service mysql restart
 
 # INSTALL NODEJS
 sudo curl --silent --location https://deb.nodesource.com/setup_14.x | sudo bash -
@@ -33,9 +45,16 @@ sudo systemctl enable redis-server
 
 #INSTALL WKHTMLROPDF AND FONTS
 sudo apt -y install libxrender1 libxext6 xfonts-75dpi xfonts-base
-# visit and download for your os:   https://wkhtmltopdf.org/downloads.html
-# if errors while install wkhtmltopdf execute
-sudo apt -f install
+# visit and download for your os:   https://wkhtmltopdf.org/downloads.html(be carefull on the sever you on eitehr amd or arm)
+# if errors while install wkhtmltopdf execute.
+sudo apt-get update
+sudo apt-get install fontconfig
+#sudo apt -f install(original text)
+#install the file 
+sudo dpkg -i (file)
+#check version 
+wkhtmltopdf --version
+
 
 # ADD OS USER AND MAKE SUDOER
 sudo adduser frappe
@@ -60,10 +79,11 @@ exit;
 python3.8 -m pip install frappe-bench
 
 # create bench and cd into it
-#test bench by executing bench if error, exit frappe user, log back in and retry 
+#test bench by executing bench if error, exit frappe user, log back in and retry command = exit at terminal
 bench
 bench init --frappe-branch=version-13 --python=python3.8 frappe-bench
 # once complete cd into frappe-bench if installation errors, check you have above 4gb or ram, enough storage and nginx is properly installed.
+# Ran into error python2 had to be installed then reran bench init 
 
 #install erpnext
 bench get-app --branch=version-13 erpnext
@@ -73,6 +93,8 @@ bench new-site example.com --db-name=example
 #install add erpnext to site
 
 bench --site example.com install-app erpnext
+
+# if installing on Oracle , firewalls need to be opened
 
 bench start
 #DONE
